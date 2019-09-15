@@ -27,7 +27,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
     }
     
     func createBulletBody(shapeNode: SCNNode, orientation: SCNVector3, force: Float = defaultPower) -> SCNPhysicsBody {
-        let body = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: shapeNode, options: nil))
+        let body = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: shapeNode, options: [SCNPhysicsShape.Option.keepAsCompound: 0]))
         body.isAffectedByGravity = true
         body.applyForce(SCNVector3(orientation.x * force, orientation.y * force, orientation.z * force), asImpulse: true)
         body.categoryBitMask = BitMaskCategry.bullet.rawValue
@@ -36,7 +36,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
     }
     
     func createEnemyBody(shapeNode: SCNNode) -> SCNPhysicsBody {
-        let enemyBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: shapeNode, options: nil))
+        let enemyBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: shapeNode, options: nil))
         enemyBody.categoryBitMask = BitMaskCategry.enemy.rawValue
         enemyBody.contactTestBitMask = BitMaskCategry.bullet.rawValue
         return enemyBody

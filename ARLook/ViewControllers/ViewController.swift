@@ -136,7 +136,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.enemyIndex = indexPath.section
-        self.collectionView.layoutIfNeeded()
+        self.collectionView.reloadData()
     }
 
 

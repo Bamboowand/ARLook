@@ -14,6 +14,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     var model: SCNScene?
     var detectMode: Int = 0
+    var enemyNode: SCNNode?
     @IBOutlet weak var arView: ARSCNView!
     
     // MARK: - View lifecircle methods
@@ -23,7 +24,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             configuation.planeDetection = [.horizontal, .vertical]
         }
         else {
-//            configuation.detectionImages
+            guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else { return }
+            configuation.detectionImages = referenceImages
         }
         arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
         arView.session.run(configuation)
@@ -43,12 +45,15 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillAppear(animated)
         self.restartSession()
         
+        if self.detectMode != 0 {
+            return
+        }
+        
         guard let modelNode = model?.rootNode.childNodes[0].clone() else {
             fatalError("No found model")
         }
         modelNode.scale = SCNVector3(0.3, 0.3, 0.3)
         modelNode.position = SCNVector3(0, 0, -3)
-        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
         arView.scene.rootNode.addChildNode(modelNode)
     }
     
@@ -93,19 +98,44 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard let planeAnchor = anchor as? ARPlaneAnchor else {
+        if let planeAnchor = anchor as? ARPlaneAnchor {
+            node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
+        }
+        else if let imageAnchor = anchor as? ARImageAnchor {
+            let referenceImage = imageAnchor.referenceImage
+//            let imageName = referenceImage.name ?? "no name"
+            let plane = SCNPlane(width: referenceImage.physicalSize.width, height: referenceImage.physicalSize.height)
+            let planeNode = SCNNode(geometry: plane)
+            planeNode.opacity = 0.20
+            planeNode.eulerAngles.x = -.pi / 2
+            
+            guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+                fatalError("No found model")
+            }
+            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
+            node.addChildNode(modelNode)
+            node.addChildNode(planeNode)
+        }
+        else {
             return
         }
-        node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
+        
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         node.enumerateChildNodes { (childNode, _) in
             childNode.removeFromParentNode()
         }
-        
         node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
+        
+//        guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+//            fatalError("No found model")
+//        }
+//        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
+//        node.addChildNode(modelNode)
+        
 //        guard let planeAnchor = anchor as? ARPlaneAnchor,
 //            let planNode = node.childNodes.first,
 //            let plane = planNode.geometry as? SCNPlane else {
