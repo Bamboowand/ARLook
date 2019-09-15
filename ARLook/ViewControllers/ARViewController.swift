@@ -73,21 +73,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     // MARK: - TopGestureRecognzier methods
     @objc func handleTap(sender: UITapGestureRecognizer) {
-//        guard let scnViewTappedOn = sender.view as? SCNView else { return }
-//        let tappedCoordinate = sender.location(in: scnViewTappedOn)
-//        let hitTest = scnViewTappedOn.hitTest(tappedCoordinate)
-        
-        
-//        guard let scnViewTappedOn = sender.view as? ARSCNView else { return }
-//        guard let pointOfView = scnViewTappedOn.pointOfView else { return }
-//        let transform = pointOfView.transform
-//        let orientation = SCNVector3(-transform.m31, -transform.m32, -transform.m33)
-//        let location = SCNVector3(transform.m41, transform.m42, transform.m43)
-//        let position = orientation + location
-        
         let (direction, position) = self.getUserVector()
-        
-        
         let bullet = SCNDataModel.shared.createBullet(position: position)
         bullet.physicsBody = PhysicsSceneWorldModel.shared.createBulletBody(shapeNode: bullet, orientation: direction, force: 80.0)
         self.arView.scene.rootNode.addChildNode(bullet)
@@ -105,15 +91,6 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             return
         }
         node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
-
-        
-//        guard let pointOfView = self.arView.pointOfView else {
-//            return
-//        }
-//        let transform = pointOfView.transform
-//        let orientation = SCNVector3(-transform.m31, -transform.m32, -transform.m33)
-//        let location = SCNVector3Make(transform.m41, transform.m42, transform.m43)
-//        let frontOfCamera = orientation + location
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
