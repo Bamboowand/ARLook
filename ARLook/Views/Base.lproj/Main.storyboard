@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--ARGame-->
         <scene sceneID="7l6-C1-2b4">
             <objects>
                 <tableViewController id="5zX-ry-jzv" customClass="ViewController" customModule="ARLook" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="SCNView" id="DVY-pA-CC7">
+                            <tableViewSection headerTitle="選擇敵人" id="DVY-pA-CC7">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="xHd-br-AY4">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
@@ -29,7 +29,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Introduction" id="cyt-Fe-t1v">
+                            <tableViewSection headerTitle="選擇AR模式" id="cyt-Fe-t1v">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nRa-I8-pzE">
                                         <rect key="frame" x="0.0" y="100" width="414" height="44"/>
@@ -47,7 +47,13 @@
                             <outlet property="delegate" destination="5zX-ry-jzv" id="xLP-3o-q56"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Lt3-r2-xMZ"/>
+                    <navigationItem key="navigationItem" title="ARGame" id="Lt3-r2-xMZ">
+                        <barButtonItem key="rightBarButtonItem" title="Start" id="agW-wF-qLg">
+                            <connections>
+                                <action selector="startAction:" destination="5zX-ry-jzv" id="Mfr-mV-Jzy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frT-Om-Zd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

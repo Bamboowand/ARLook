@@ -20,6 +20,7 @@ class SCNDataModel {
     static let shared = SCNDataModel()
     
     private(set) var models = [SCNData]()
+    let arModeTitle = ["平面偵測", "圖像偵測"]
     let assets = "Assets.scnassets"
     private init() {
         guard let path = Bundle.main.path(forResource: assets, ofType: nil) else {

@@ -13,12 +13,18 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     let configuation = ARWorldTrackingConfiguration()
     
     var model: SCNScene?
+    var detectMode: Int = 0
     @IBOutlet weak var arView: ARSCNView!
     
     // MARK: - View lifecircle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        configuation.planeDetection = [.horizontal, .vertical]
+        if ( detectMode == 0 ) {
+            configuation.planeDetection = [.horizontal, .vertical]
+        }
+        else {
+//            configuation.detectionImages
+        }
         arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
         arView.session.run(configuation)
         arView.delegate = self
