@@ -22,8 +22,13 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
     var worldNode: SCNNode?
     static let shared = PhysicsSceneWorldModel()
     static private(set) var defaultPower: Float = 80.0
+    @objc dynamic private(set) var score: Int = 0
     private override init() {
         
+    }
+    // MARK: - Public methods
+    func reset() {
+        self.score = 0
     }
     
     func createBulletBody(shapeNode: SCNNode, orientation: SCNVector3, force: Float = defaultPower) -> SCNPhysicsBody {
@@ -85,6 +90,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
         fireNode.position = contact.contactPoint
         self.worldNode?.addChildNode(fireNode)
         target?.removeFromParentNode()
+        self.score += 1
         
     }
     

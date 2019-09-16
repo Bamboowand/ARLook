@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ARViewController" customModule="ARLook" customModuleProvider="target">
             <connections>
                 <outlet property="arView" destination="cjd-bF-J4o" id="YEo-6k-3ou"/>
+                <outlet property="scoreLabel" destination="LZt-OQ-b7L" id="fMh-Ou-f62"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,13 +28,22 @@
                     <rect key="frame" x="175.66666666666666" y="394" width="24" height="24"/>
                     <state key="normal" image="Plus"/>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZt-OQ-b7L">
+                    <rect key="frame" x="325" y="44" width="50" height="21"/>
+                    <color key="backgroundColor" red="0.40000000000000002" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="cjd-bF-J4o" secondAttribute="bottom" id="3Bd-St-D13"/>
                 <constraint firstItem="mBE-UN-mNI" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="3tO-FL-BTi"/>
                 <constraint firstItem="cjd-bF-J4o" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="AX4-8T-JI8"/>
+                <constraint firstItem="LZt-OQ-b7L" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="BeO-VF-viF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="cjd-bF-J4o" secondAttribute="trailing" id="rpl-q6-OjL"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="LZt-OQ-b7L" secondAttribute="trailing" id="tKw-JV-b7F"/>
                 <constraint firstItem="mBE-UN-mNI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uBv-XJ-zXx"/>
                 <constraint firstItem="cjd-bF-J4o" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="v9J-XD-2z8"/>
             </constraints>

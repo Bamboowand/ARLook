@@ -12,6 +12,7 @@ import ARKit
 class ARViewController: UIViewController, ARSCNViewDelegate {
     let configuation = ARWorldTrackingConfiguration()
     
+    @IBOutlet weak var scoreLabel: UILabel!
     var model: SCNScene?
     var detectMode: Int = 0
     var enemyNode: SCNNode?
@@ -39,6 +40,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         arView.addGestureRecognizer(tapGestureRecognizer)
+        
+//        let _ = PhysicsSceneWorldModel.shared.observe(\.score) { (ob, changed) in
+//
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +52,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         
         if self.detectMode != 0 {
             return
+        }
+        
+        DispatchQueue.main.async {
+            self.scoreLabel.text = "Score:" + String(PhysicsSceneWorldModel.shared.score)
         }
         
         guard let modelNode = model?.rootNode.childNodes[0].clone() else {
@@ -61,6 +70,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.arView.session.pause()
+        PhysicsSceneWorldModel.shared.reset()
     }
     
     // MARK: - Private methods
@@ -96,7 +106,9 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 
     // MARK: - ARSCNViewDelegate meyhods
     func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        
+        DispatchQueue.main.async {
+            self.scoreLabel.text = "Score:" + String(PhysicsSceneWorldModel.shared.score)
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
