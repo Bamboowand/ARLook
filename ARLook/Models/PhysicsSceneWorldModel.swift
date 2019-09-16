@@ -41,6 +41,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
     }
     
     func createEnemyBody(shapeNode: SCNNode) -> SCNPhysicsBody {
+//        let enemyBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: shapeNode, options: nil))
         let enemyBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: shapeNode, options: nil))
         enemyBody.categoryBitMask = BitMaskCategry.enemy.rawValue
         enemyBody.contactTestBitMask = BitMaskCategry.bullet.rawValue

@@ -58,12 +58,18 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             self.scoreLabel.text = "Score:" + String(PhysicsSceneWorldModel.shared.score)
         }
         
-        guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+        guard let modelNode = model?.rootNode.clone() else {
             fatalError("No found model")
         }
+        
+//        let actualPosition = self.arView.scene.rootNode.convertPosition((self.enemyDrone?.position)!, from: self.enemyDrone)
+//        self.enemyDrone?.position = self.scene.rootNode.convertPosition(actualPosition, to: self.sectorObjectsNode)
+//        self.sectorObjectsNode.addChildNode(self.enemyDrone!)
+        
+        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
         modelNode.scale = SCNVector3(0.3, 0.3, 0.3)
         modelNode.position = SCNVector3(0, 0, -3)
-        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
+
         arView.scene.rootNode.addChildNode(modelNode)
     }
     
@@ -115,13 +121,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         if let planeAnchor = anchor as? ARPlaneAnchor {
             let planeNode = SCNDataModel.shared.createFloor(planeAnchor: planeAnchor)
             
-            guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+            guard let modelNode = model?.rootNode.clone() else {
                 fatalError("No found model")
             }
+            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
             modelNode.scale = SCNVector3(x: 0.03, y: 0.03, z: 0.03)
             modelNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
             node.addChildNode(modelNode)
-            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
+
             node.addChildNode(planeNode)
         }
         else if let imageAnchor = anchor as? ARImageAnchor {
