@@ -50,7 +50,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
     }
     
     
-    // Mark: - SCNPhysicsContactDelegate methods
+    // MARK: - SCNPhysicsContactDelegate methods
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         let nodeA = contact.nodeA
         let nodeB = contact.nodeB
@@ -84,6 +84,7 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
         fireNode.addParticleSystem(fire!)
         fireNode.position = contact.contactPoint
         self.worldNode?.addChildNode(fireNode)
+        target?.removeFromParentNode()
         
     }
     

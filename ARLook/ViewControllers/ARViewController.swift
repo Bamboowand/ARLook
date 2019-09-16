@@ -54,6 +54,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
         }
         modelNode.scale = SCNVector3(0.3, 0.3, 0.3)
         modelNode.position = SCNVector3(0, 0, -3)
+        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
         arView.scene.rootNode.addChildNode(modelNode)
     }
     
@@ -84,7 +85,8 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     // MARK: - TopGestureRecognzier methods
     @objc func handleTap(sender: UITapGestureRecognizer) {
-        let (direction, position) = self.getUserVector()
+        let (direction, location) = self.getUserVector()
+        let position = location + direction
         let bullet = SCNDataModel.shared.createBullet(position: position)
         bullet.physicsBody = PhysicsSceneWorldModel.shared.createBulletBody(shapeNode: bullet, orientation: direction, force: 80.0)
         self.arView.scene.rootNode.addChildNode(bullet)
@@ -99,7 +101,16 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if let planeAnchor = anchor as? ARPlaneAnchor {
-            node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
+            let planeNode = SCNDataModel.shared.createFloor(planeAnchor: planeAnchor)
+            
+            guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+                fatalError("No found model")
+            }
+            modelNode.scale = SCNVector3(x: 0.03, y: 0.03, z: 0.03)
+            modelNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
+            node.addChildNode(modelNode)
+            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
+            node.addChildNode(planeNode)
         }
         else if let imageAnchor = anchor as? ARImageAnchor {
             let referenceImage = imageAnchor.referenceImage
@@ -124,11 +135,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        node.enumerateChildNodes { (childNode, _) in
-            childNode.removeFromParentNode()
-        }
-        node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
+//        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+//        node.enumerateChildNodes { (childNode, _) in
+//            childNode.removeFromParentNode()
+//        }
+//        node.addChildNode(SCNDataModel.shared.createFloor(planeAnchor: planeAnchor))
         
 //        guard let modelNode = model?.rootNode.childNodes[0].clone() else {
 //            fatalError("No found model")
@@ -136,14 +147,14 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 //        modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
 //        node.addChildNode(modelNode)
         
-//        guard let planeAnchor = anchor as? ARPlaneAnchor,
-//            let planNode = node.childNodes.first,
-//            let plane = planNode.geometry as? SCNPlane else {
-//            return
-//        }
-//        plane.width = CGFloat(planeAnchor.extent.x)
-//        plane.width = CGFloat(planeAnchor.extent.z)
-//        planNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
+        guard let planeAnchor = anchor as? ARPlaneAnchor,
+            let planNode = node.childNodes.first,
+            let plane = planNode.geometry as? SCNPlane else {
+            return
+        }
+        plane.width = CGFloat(planeAnchor.extent.x)
+        plane.height = CGFloat(planeAnchor.extent.z)
+        planNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
         
     }
     

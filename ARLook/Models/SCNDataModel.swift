@@ -56,15 +56,17 @@ class SCNDataModel {
         let planeNode = SCNNode(geometry: SCNPlane(width: CGFloat(planeAnchor.extent.x), height: CGFloat(planeAnchor.extent.z)))
         let meterial = SCNMaterial()
         meterial.diffuse.contents = UIImage(named: "TexturesCom_WoodRough0009_S.jpg")
-        meterial.locksAmbientWithDiffuse = true
+//        meterial.locksAmbientWithDiffuse = true
         meterial.isDoubleSided = true
         //        planeNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "TexturesCom_WoodRough0009_S.jpg")
         //        planeNode.geometry?.firstMaterial?.isDoubleSided = true
-        planeNode.geometry?.materials = [meterial]
+//        planeNode.geometry?.materials = [meterial]
+        planeNode.opacity = 0.20
         planeNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
         planeNode.eulerAngles = SCNVector3(-90.degreesToRadians, 0, 0)
-        let staticBody = SCNPhysicsBody.static()
+        let staticBody = SCNPhysicsBody.kinematic()
         staticBody.physicsShape = SCNPhysicsShape(node: planeNode, options: nil)
+//        staticBody.isAffectedByGravity = true
         planeNode.physicsBody = staticBody
         return planeNode
     }
