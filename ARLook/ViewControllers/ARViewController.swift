@@ -139,9 +139,11 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             planeNode.opacity = 0.20
             planeNode.eulerAngles.x = -.pi / 2
             
-            guard let modelNode = model?.rootNode.childNodes[0].clone() else {
+            guard let modelNode = model?.rootNode.clone() else {
                 fatalError("No found model")
             }
+//            modelNode.scale = SCNVector3(x: 0.03, y: 0.03, z: 0.03)
+            modelNode.position = SCNVector3(0, 0, 0)
             modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
             node.addChildNode(modelNode)
             node.addChildNode(planeNode)
