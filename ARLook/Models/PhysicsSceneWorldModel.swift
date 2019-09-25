@@ -72,27 +72,29 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
             target = nodeA
         }
         
+        let confettiNode = SCNNode()
+        confettiNode.position = contact.contactPoint
+        confettiNode.scale = (target?.presentation.scale)!
+        self.worldNode?.addChildNode(confettiNode)
         let confetti = SCNParticleSystem(named:"Confetti.scnp", inDirectory: nil)
         confetti?.loops = false
-        confetti?.particleLifeSpan = 4
+        confetti?.particleLifeSpan = 0.6
         confetti?.emitterShape = bullet?.geometry
-        let confettiNode = SCNNode()
         confettiNode.addParticleSystem(confetti!)
-        confettiNode.position = contact.contactPoint
-        self.worldNode?.addChildNode(confettiNode)
+        
         bullet?.removeFromParentNode()
         
-        let fire = SCNParticleSystem(named:"Fire.scnp", inDirectory: nil)
-        fire?.loops = false
-        fire?.particleLifeSpan = 4
-        fire?.emitterShape = target?.geometry
         let fireNode = SCNNode()
-        fireNode.rotation = target!.rotation
-        fireNode.scale = target!.scale
+        fireNode.rotation = target!.presentation.rotation
+        fireNode.scale = target!.presentation.scale
         
-        fireNode.addParticleSystem(fire!)
         fireNode.position = contact.contactPoint
         self.worldNode?.addChildNode(fireNode)
+        let fire = SCNParticleSystem(named:"Fire.scnp", inDirectory: nil)
+        fire?.loops = false
+        fire?.particleLifeSpan = 0.4
+        fire?.emitterShape = target?.geometry
+        fireNode.addParticleSystem(fire!)
         target?.removeFromParentNode()
         self.score += 1
         
