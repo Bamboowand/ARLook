@@ -87,6 +87,9 @@ class PhysicsSceneWorldModel: NSObject, SCNPhysicsContactDelegate {
         fire?.particleLifeSpan = 4
         fire?.emitterShape = target?.geometry
         let fireNode = SCNNode()
+        fireNode.rotation = target!.rotation
+        fireNode.scale = target!.scale
+        
         fireNode.addParticleSystem(fire!)
         fireNode.position = contact.contactPoint
         self.worldNode?.addChildNode(fireNode)

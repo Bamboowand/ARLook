@@ -28,7 +28,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else { return }
             configuation.detectionImages = referenceImages
         }
-        arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints]
+        
+        #if DEBUG
+        arView.debugOptions = [ARSCNDebugOptions.showWorldOrigin, ARSCNDebugOptions.showFeaturePoints, .showPhysicsShapes, .showPhysicsFields]
+        #endif
         arView.session.run(configuation)
         arView.delegate = self
         arView.scene.physicsWorld.contactDelegate = PhysicsSceneWorldModel.shared
@@ -124,10 +127,10 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             guard let modelNode = model?.rootNode.clone() else {
                 fatalError("No found model")
             }
-            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
             modelNode.scale = SCNVector3(x: 0.03, y: 0.03, z: 0.03)
             modelNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
             node.addChildNode(modelNode)
+            modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
 
             node.addChildNode(planeNode)
         }
