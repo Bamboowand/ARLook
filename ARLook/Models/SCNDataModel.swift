@@ -68,6 +68,7 @@ class SCNDataModel {
         staticBody.physicsShape = SCNPhysicsShape(node: planeNode, options: nil)
 //        staticBody.isAffectedByGravity = true
         planeNode.physicsBody = staticBody
+        planeNode.name = "Floor"
         return planeNode
     }
     

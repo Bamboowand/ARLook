@@ -131,7 +131,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
             modelNode.position = SCNVector3(CGFloat(planeAnchor.center.x), CGFloat(planeAnchor.center.y), CGFloat(planeAnchor.center.z))
             node.addChildNode(modelNode)
             modelNode.physicsBody = PhysicsSceneWorldModel.shared.createEnemyBody(shapeNode: modelNode)
-
+            
             node.addChildNode(planeNode)
         }
         else if let imageAnchor = anchor as? ARImageAnchor {
@@ -172,7 +172,7 @@ class ARViewController: UIViewController, ARSCNViewDelegate {
 //        node.addChildNode(modelNode)
         
         guard let planeAnchor = anchor as? ARPlaneAnchor,
-            let planNode = node.childNodes.first,
+            let planNode = node.childNode(withName: "Floor", recursively: true),
             let plane = planNode.geometry as? SCNPlane else {
             return
         }
