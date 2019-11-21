@@ -203,3 +203,64 @@ extension Int {
 func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
     return SCNVector3Make(left.x + right.x, left.y + right.y, left.z + right.z)
 }
+
+/// AR Video
+//func viewDidLoad() {
+//    super.viewDidLoad()
+//
+//    // Set the view's delegate
+//    sceneView.delegate = self
+//
+//    // Show statistics such as fps and timing information
+//    sceneView.showsStatistics = true
+//
+//    // Create a new scene
+//    let scene = SCNScene()
+//
+//    // Set the scene to the view
+//    sceneView.scene = scene
+//    sceneView.isPlaying = true
+//
+//    // create a texture that will be applied to sphere
+//
+//    let spriteKitScene = SKScene(size: CGSize(width: sceneView.frame.width, height: sceneView.frame.height))
+//    spriteKitScene.scaleMode = .aspectFit
+//
+//    let videoUrl  = Bundle.main.url(forResource: "360videoname", withExtension: "mp4")
+//    let videoPlayer = AVPlayer(url: videoUrl!)
+//
+//    let videoSpriteKitNode = SKVideoNode(avPlayer:videoPlayer)
+//    videoSpriteKitNode.position = CGPoint(x: spriteKitScene.size.width/2, y: spriteKitScene.size.height/2)
+//    videoSpriteKitNode.size = spriteKitScene.size
+//    videoSpriteKitNode.yScale = -1.0
+//    videoSpriteKitNode.play()
+//    spriteKitScene.addChild(videoSpriteKitNode)
+//
+//    // create a sphere and apply the texture
+//    let sphere = create(stars: SCNSphere(radius:30), and: spriteKitScene, and: nil, and: nil, and: nil, and: SCNVector3(0,0,0))
+//
+//     self.sceneView.scene.rootNode.addChildNode(sphere)
+//
+//
+//}
+//
+//func create(stars geometry: SCNGeometry, and diffuse: SKScene?, and specular: UIImage?, and emission: UIImage?, and normal: UIImage?, and position: SCNVector3) -> SCNNode {
+//    let node = SCNNode()
+//    node.geometry = geometry
+//    node.geometry?.firstMaterial?.diffuse.contents = diffuse
+//    node.geometry?.firstMaterial?.specular.contents = specular
+//    node.geometry?.firstMaterial?.normal.contents = normal
+//    node.geometry?.firstMaterial?.emission.contents = emission
+//    node.position = position
+//    node.geometry?.firstMaterial?.isDoubleSided = true
+//
+//    return node
+//}
+
+
+// Swift thread lock
+func synchronized(lock: AnyObject, closure: () -> ()) {
+    objc_sync_enter(lock)
+    closure()
+    objc_sync_exit(lock)
+}
